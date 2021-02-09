@@ -10,7 +10,7 @@ extern int erros;
 %token ABRE_CHAVE FECHA_CHAVE SEPARADOR VIRGULA FLOAT INT PRINTF VOID BOOL CHAR MAIN
 %token IDENTIFICADOR INTEIRO REAL STRING OPERADOR COMPARADORES NEGACAO IGUAL COMENTARIO
 %token ATRIBUICAO SOMA SUBTACAO MULTIPLICACAO DIVISAO IGUAL_IGUAL MAIOR_IGUAL MENOR_IGUAL MAIOR MENOR DIFERENTE
-%token IF ELSE ELIF WHILE FOR 
+%token IF ELSE ELIF WHILE FOR TRUE FALSE
 %start Programa_principal
 
 %%
@@ -22,7 +22,8 @@ Comandos: Comando Comandos | ;
 
 Comando: Declaracao | Atribuicao | Print | Comentario | error{yyerror("", linhas);};
 
-//sintaxe de Declaração
+
+//Sintaxe de Declaração
 Declaracao: Tipo Decl SEPARADOR;
 
 Tipo: INT | FLOAT | CHAR | BOOL;
@@ -31,45 +32,57 @@ Decl: LISTA_VAR;
 
 LISTA_VAR: IDENTIFICADOR Atribui_valor VIRGULA LISTA_VAR | IDENTIFICADOR Atribui_valor;
 
-Atribui_valor: IGUAL Num | IGUAL String | ;
+Atribui_valor: IGUAL Num | IGUAL String | IGUAL Bool | ;
 
 Num: INTEIRO | REAL;
 
 String: STRING;
 
+Bool: TRUE | FALSE;
+
 //Sintaxe de atribuição
 
-Atribuicao: IDENTIFICADOR IGUAL Exp SEPARADOR ;
+Atribuicao: IDENTIFICADOR IGUAL Exp SEPARADOR;
 
-Exp: INT x | FLOAT x | IDENTIFICADOR x;
+Exp: INTEIRO x | REAL x | IDENTIFICADOR x;
 
 x: OPERADOR Exp | ;
 
+
 //Sintaxe de impressão
-Print: PRINTF ABRE_PARENTESIS ASPAS Qualquer_palavra ASPAS FECHA_PARENTESIS SEPARADOR; // não há reconhecimento de acentos e caracteres especiais no comando de impressão da linguagem, sendo o comando apenas para exibir mensagens de alerta ou algum comunicado ao usuário na tela
+Print: PRINTF ABRE_PARENTESIS STRING FECHA_PARENTESIS SEPARADOR; // não há reconhecimento de acentos e caracteres especiais no comando de impressão da linguagem, sendo o comando apenas para exibir mensagens de alerta ou algum comunicado ao usuário na tela
 
-Qualquer_palavra: IDENTIFICADOR y;
+//Qualquer_palavra: IDENTIFICADOR y;
 
-y: IDENTIFICADOR y | ;
+//y: IDENTIFICADOR y | ;
+
 
 //Sintaxe de comentário
 Comentario: COMENTARIO;
 
+
+//Sintaxe de Operadores Aritméticos
+
+
+
+
 %%
 FILE *yyin;
 
-int yyerror(char *str, int num_linha){
-	if(strcmp(str,"syntax error")==0){
+int yyerror(char *str, int num_linha)
+{
+	if(strcmp(str,"syntax error")==0)
+	{
 		erros++;
-		printf("Erro sintático\n");//Exibe mensagem de erro
 	}
-	else{
-		printf("O erro aparece próximo à linha %d\n", num_linha);//Exibe a linha do erro
+	else
+	{
+		printf("O erro aparece proximo a linha %d\n", num_linha);//Exibe a linha do erro
 	}
 	return erros;
 }
 
-main (int argc, char **argv ){
+int main (int argc, char **argv ){
 	++argv, --argc; //desconsidera o nome do programa
 	if ( argc > 0 )
 		yyin = fopen( argv[0], "r" );
@@ -83,6 +96,6 @@ main (int argc, char **argv ){
 	}while(!feof(yyin));//enquanto não chegar ao fim do arquivo faz as análises
 	
 	if(erros==0)//Se não houver erros, imprime mensagem de fim de análise com sucesso
-		puts("Análise concluída com sucesso");
+		puts("Analise concluida com sucesso");
 
 }

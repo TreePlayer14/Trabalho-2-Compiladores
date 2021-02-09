@@ -61,7 +61,25 @@
      COMPARADORES = 277,
      NEGACAO = 278,
      IGUAL = 279,
-     ATRIBUICAO = 280
+     COMENTARIO = 280,
+     ATRIBUICAO = 281,
+     SOMA = 282,
+     SUBTACAO = 283,
+     MULTIPLICACAO = 284,
+     DIVISAO = 285,
+     IGUAL_IGUAL = 286,
+     MAIOR_IGUAL = 287,
+     MENOR_IGUAL = 288,
+     MAIOR = 289,
+     MENOR = 290,
+     DIFERENTE = 291,
+     IF = 292,
+     ELSE = 293,
+     ELIF = 294,
+     WHILE = 295,
+     FOR = 296,
+     TRUE = 297,
+     FALSE = 298
    };
 #endif
 

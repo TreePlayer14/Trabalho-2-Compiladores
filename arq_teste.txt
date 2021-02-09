@@ -1,0 +1,12 @@
+main(){
+    int j = 1, i = 2.2;
+    int x;
+    char c = "string";
+    bool b = true, f = false;
+    //olha so
+    i = j + 1;
+    i = j - 1;
+    i = j * 1;
+    i = j / 1;
+    printf("teste");	
+}

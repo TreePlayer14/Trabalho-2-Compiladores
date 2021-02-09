@@ -1,5 +1,8 @@
 %{
-	int linhas=1, erro=0;
+	#include <stdio.h>
+    #include <string.h>
+    #include "TiagoPinheiroCamargo_trabalho.tab.h"
+	int linhas=1, erros=0;
 %}
 
 DIGITO [0-9]
@@ -9,10 +12,6 @@ ESPACO	[\t\r" "]
 %%
 
 {ESPACO} /*reconhece espaço em branco*/
-
-"'" { 
-	return (ASPAS); 
-}
 
 "(" { 
 	return (ABRE_PARENTESIS); 
@@ -54,10 +53,6 @@ ESPACO	[\t\r" "]
 	return (VOID); 
 }
 
-"double" { 
-	return (DOUBLE); 
-}
-
 "char" { 
 	return (CHAR); 
 }
@@ -77,22 +72,22 @@ ESPACO	[\t\r" "]
 
 
 "+" {
-	return (SOMA);
+	return (OPERADOR);
 	//printf("Token Encontrado! Operacao de Soma: %s\n", yytext);
 } /* Operação de soma */
 
 "-" {
-	return (SUBTRACAO);
+	return (OPERADOR);
 	//printf("Token Encontrado! Operacao de Subtracao: %s\n", yytext);
 } /* Operação de subtração*/
 
 "*" {
-	return (MULTIPLICACAO);
+	return (OPERADOR);
 	//printf("Token Encontrado! Operacao de Multiplicacao: %s\n", yytext);
 } /*Operação de multiplicação*/
 
 "/" {
-	return (DIVISAO);
+	return (OPERADOR);
 	//printf("Token Encontrado! Operacao de Divisao: %s\n", yytext);
 } /*Operação de divisão*/
 
@@ -125,7 +120,7 @@ ESPACO	[\t\r" "]
 
 
 
-[']([^"\\\n]|\\(.|\n))*['] {
+["]([^"\\\n]|\\(.|\n))*["] {
 	return (STRING);
     //printf("Token Encontrado! String: %s\n", yytext);
 } /*String*/
@@ -159,10 +154,17 @@ ESPACO	[\t\r" "]
 } /* Palavra reservada para o comando for */
 
 
+"true" {
+	return (TRUE);
+}
+
+"false" {
+	return (FALSE);
+}
 
 {DIGITO}+{ID} {
 	printf("Identificador invalido: %s - ", yytext);
-	erro++;
+	erros++;
 	printf("Linha: %d\n", linhas);
 } /*Erro em identificador*/
 
@@ -183,7 +185,7 @@ ESPACO	[\t\r" "]
 
 {DIGITO}+","{DIGITO}+ {
 	printf("Configuracao de Numero Real Invalido: %s -", yytext);
-	erro++;
+	erros++;
 	printf("Linha: %d\n", linhas);
 } /*Configuração inválida de número real*/
 
@@ -193,21 +195,11 @@ ESPACO	[\t\r" "]
 
 . {
 	printf("Token invalido: %s -",yytext);
-	erro++;
+	erros++;
 	printf("Linha: $d\n", linhas);
 } /*Apresenta erro em qualquer coisa que não for uma regra válida*/
 
 %%
-
-int yywrap();
-
-main(){
-	yylex();
-	yylex();
-	printf("Total de erros lexicos encontrados: %d\n", erro);
-	if(erro==0)
-		puts("\nAnalise lexica do codigo concluida com sucesso!\n");
-}
 
 int yywrap(){
 	return 1;
