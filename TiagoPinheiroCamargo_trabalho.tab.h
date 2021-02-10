@@ -77,9 +77,8 @@
      ELSE = 293,
      ELIF = 294,
      WHILE = 295,
-     FOR = 296,
-     TRUE = 297,
-     FALSE = 298
+     TRUE = 296,
+     FALSE = 297
    };
 #endif
 

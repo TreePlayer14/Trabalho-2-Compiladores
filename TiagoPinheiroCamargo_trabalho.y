@@ -10,7 +10,7 @@ extern int erros;
 %token ABRE_CHAVE FECHA_CHAVE SEPARADOR VIRGULA FLOAT INT PRINTF VOID BOOL CHAR MAIN
 %token IDENTIFICADOR INTEIRO REAL STRING OPERADOR COMPARADORES NEGACAO IGUAL COMENTARIO
 %token ATRIBUICAO SOMA SUBTACAO MULTIPLICACAO DIVISAO IGUAL_IGUAL MAIOR_IGUAL MENOR_IGUAL MAIOR MENOR DIFERENTE
-%token IF ELSE ELIF WHILE FOR TRUE FALSE
+%token IF ELSE ELIF WHILE TRUE FALSE
 %start Programa_principal
 
 %%
@@ -20,7 +20,7 @@ Programa_principal: MAIN ABRE_PARENTESIS FECHA_PARENTESIS ABRE_CHAVE Comandos FE
 
 Comandos: Comando Comandos | ;
 
-Comando: Declaracao | Atribuicao | Print | Comentario | error{yyerror("", linhas);};
+Comando: Declaracao | Atribuicao | Print | Comentario | If | While | error{yyerror("", linhas);};
 
 
 //Sintaxe de Declaração
@@ -61,9 +61,20 @@ Print: PRINTF ABRE_PARENTESIS STRING FECHA_PARENTESIS SEPARADOR; // não há rec
 Comentario: COMENTARIO;
 
 
-//Sintaxe de Operadores Aritméticos
+//Sintaxe do Comando Condicional (if, elif, else)
+If: IF ABRE_PARENTESIS Condicoes FECHA_PARENTESIS ABRE_CHAVE Comandos FECHA_CHAVE | IF ABRE_PARENTESIS Condicoes FECHA_PARENTESIS ABRE_CHAVE Comandos FECHA_CHAVE Elif;
+
+Elif: ELIF ABRE_PARENTESIS Condicoes FECHA_PARENTESIS ABRE_CHAVE Comandos FECHA_CHAVE Elif | Else;
+
+Else: ELSE ABRE_CHAVE Comandos FECHA_CHAVE;
+
+Condicoes: Exp Comparador Exp | IDENTIFICADOR IGUAL Bool;
+
+Comparador: IGUAL_IGUAL | MAIOR_IGUAL | MENOR_IGUAL | MENOR | MAIOR | DIFERENTE;
 
 
+//Sintaxe do Comando de Repetição (while)
+While: WHILE ABRE_PARENTESIS Condicoes FECHA_PARENTESIS ABRE_CHAVE Comandos FECHA_CHAVE;
 
 
 %%

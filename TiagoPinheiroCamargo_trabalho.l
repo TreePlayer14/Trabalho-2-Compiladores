@@ -149,10 +149,6 @@ ESPACO	[\t\r" "]
 	return (WHILE);
 } /* Palavra reservada para o comando while */
 
-"for" {
-	return (FOR);
-} /* Palavra reservada para o comando for */
-
 
 "true" {
 	return (TRUE);

@@ -3,10 +3,50 @@ main(){
     int x;
     char c = "string";
     bool b = true, f = false;
-    //olha so
+
+    //Sequência de atribuições
     i = j + 1;
     i = j - 1;
     i = j * 1;
     i = j / 1;
-    printf("teste");	
+    printf("teste");
+
+    //Sequência de comandos de condicionais    
+    if (i == 1)	{
+	j = j + 1;
+    }
+
+    if (i >= 2) {
+    	j = j + 2;
+    }
+    else {
+    	j = j + 3;
+    }
+
+    if (i <= 3) {
+    	j = j + 3;
+    }
+    elif (i > 10) {
+    	j = j + 4;
+    }
+    elif (i < 8) {
+	j = j + 5;
+    }
+    elif (i != 9) {
+	j = j + 6;
+    }
+    else {
+        j = j + 7;
+    }
+
+    //Sequência do Comando de Repetição
+    while (b = true){ //Comentário
+	x = j;
+	j = j + 1;
+    }
+
+    while (x <= 10){ 
+	x = j;
+	j = j + 2;
+    }
 }
